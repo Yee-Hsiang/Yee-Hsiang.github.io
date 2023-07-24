@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    *{
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      padding: 50px;
+    }
+  </style>
+</head>
+<body>
+  <div class="words" contenteditable="true"></div>
+  <button class="start-btn">開始識別</button>
+  <br><br>
+  <button class="end-btn">結束識別</button>
+
+  <script>
+    var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition
+    let sr = new SpeechRecognition()
+    sr.onresult = function(e) {
+      console.log("語音識別結果")
+      console.log(e.results[0][0].transcript)
+    }
+
+    let start_btn = document.querySelector(".start-btn")
+    let end_btn = document.querySelector(".end-btn")
+
+    start_btn.onclick = function() {
+      sr.start()
+    }
+
+    end_btn.onclick = function() {
+      sr.stop()
+    }
+
+
+  </script>
+</body>
+</html>
