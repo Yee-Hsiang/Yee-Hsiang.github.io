@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Document.execCommand() </title>
+</head>
+
+<body>
+
+  <div class="texts">
+    讓我們看看剪貼簿對我們什至意味著什麼，以及整個過程是如何工作的。之後，我們將在 JavaScript 中實現此複製剪貼簿功能。<br>
+    我們計算機中存在的所有內容，如應用程式、影象、文字、檔案等，都被稱為資料。因此，每當我們嘗試複製計算機中存在的任何內容時，計算機都會將一小部分記憶體分配給我們已複製的資料，以將該資料儲存在該記憶體空間中。這稱為[剪貼簿]，這是計算機記住已複製資訊的方式。現在我們已將資料儲存在記憶體中，我們可以獲取此資料，然後將其貼上或根據需要多次使用。<br>
+    從理論上講，這聽起來很簡單，但實際上由於包含許多複雜性，因此很難實現。但是不用擔心，使用 JavaScript，我們可以藉助 Document.execCommand() 方法和 Clipboard API 以一種更簡單的方式來完成此任務。
+  </div>
+  <br><br><br>
+
+  <div><input type="text" value="應用程式" class="inputText"></div><br>
+  <div><textarea class="textarea">JavaScript</textarea></div><br>
+
+  <div><button class="btnCopy">複製當前選取內容值到剪貼簿並顯示</button></div>
+  <div><button class="btnCopy2">複製輸入框內容</button></div>
+  <div><button class="btnCopy3">複製指定元素文字</button></div>
+  <div><button class="btnCopy4">複製任意內容</button></div>
+
+  <script>
+    //1.複製操作
+    const btnCopy = document.querySelector('.btnCopy');
+    btnCopy.addEventListener('click', function() {
+      document.execCommand('copy');
+      const selection = window.getSelection();
+      alert(selection.toString());
+    });
+
+    //2.複製輸入框內容
+    const btnCopy2 = document.querySelector('.btnCopy2');
+    btnCopy2.addEventListener('click', function() {
+    　const inputText = document.querySelector('.inputText');
+      inputText.select();
+      document.execCommand('copy');
+    });
+
+    //3.複製指定元素文字
+    const btnCopy3 = document.querySelector('.btnCopy3');
+    btnCopy3.addEventListener('click', function() {
+      // 建立 Range 物件
+      const range = document.createRange();
+      // 將指定元素內容加到 Range 中
+      const texts = document.querySelector('.texts');
+      range.selectNode(texts);
+      // 取得 Selection 物件
+      const selection = window.getSelection();
+      // 先清空當前選取範圍
+      selection.removeAllRanges();
+      // 加入 Range
+      selection.addRange(range);
+
+      document.execCommand('copy');
+      selection.removeAllRanges();
+    });
+
+    //4.複製任意內容
+    const btnCopy4 = document.querySelector('.btnCopy4');
+    btnCopy4.addEventListener('click', function() {
+      const value = 'Hello Jeff!';
+      const el = document.createElement('textarea');
+      el.value = value;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy');
+      document.body.removeChild(el);
+    });
+  </script>
+
+</body>
+
+</html>
